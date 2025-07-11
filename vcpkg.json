@@ -31,7 +31,7 @@
   "overrides": [
     {
       "name": "sdl2",
-      "version": "2.26.0"
+      "version": "2.26.1"
     },
     {
       "name": "opencv4",
