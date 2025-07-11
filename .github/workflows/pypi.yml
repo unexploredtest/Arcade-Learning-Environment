@@ -4,13 +4,11 @@
 
 name: Push wheels to pypi
 
-on:
-  release:
-    types: [ published ]
+on: [workflow_dispatch, push]
 
 jobs:
   build-wheels:
-    name: ${{ matrix.runs-on }} • ${{ matrix.arch }}
+    name: "${{ matrix.runs-on }} • ${{ matrix.arch }}"
     defaults:
       run:
         shell: bash
@@ -21,9 +19,9 @@ jobs:
             arch: x86_64
           - runs-on: windows-latest
             arch: AMD64
-          - runs-on: macos-12
+          - runs-on: macos-13
             arch: x86_64
-          - runs-on: macos-12
+          - runs-on: macos-13
             arch: arm64
     runs-on: ${{ matrix.runs-on }}
 
@@ -77,49 +75,3 @@ jobs:
       with:
         name: wheels-${{ matrix.runs-on }}-${{ matrix.arch }}
         path: ./wheelhouse/*.whl
-
-  push-pypi:
-    name: Deploy wheels to PyPi
-    runs-on: ubuntu-latest
-    needs: build-wheels
-    permissions:
-      id-token: write
-
-    steps:
-      # create the `ale_py-*.*.*.tar.gz` for source building
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - run: pip install setuptools
-      - run: python setup.py sdist
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: wheels-windows-latest-AMD64
-          path: dist
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: wheels-ubuntu-latest-x86_64
-          path: dist
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: wheels-macos-12-x86_64
-          path: dist
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: wheels-macos-12-arm64
-          path: dist
-
-      - run: ls dist/
-
-      - name: Publish to PyPi test
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          user: __token__
-          password: ${{ secrets.PYPI_TOKEN }}
-          packages-dir: dist/
-          print-hash: true
