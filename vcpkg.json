@@ -12,7 +12,7 @@
         {
           "name": "sdl2",
           "features": [],
-          "default-features": false
+          "default-features": true
         }
       ]
     },
@@ -31,7 +31,7 @@
   "overrides": [
     {
       "name": "sdl2",
-      "version": "2.24.2"
+      "version": "2.30.11"
     },
     {
       "name": "opencv4",
