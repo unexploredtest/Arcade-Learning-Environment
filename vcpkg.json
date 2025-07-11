@@ -11,8 +11,11 @@
       "dependencies": [
         {
           "name": "sdl2",
-          "features": [],
-          "default-features": true
+          "features": [
+            "wayland",
+            "x11"
+          ],
+          "version>=": "2.30.11"
         }
       ]
     },
