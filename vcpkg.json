@@ -12,9 +12,10 @@
         {
           "name": "sdl2",
           "features": [
-            "dbus"
+            "x11",
+            "wayland"
           ],
-          "version>=": "2.30.11"
+          "default-features": false
         }
       ]
     },
